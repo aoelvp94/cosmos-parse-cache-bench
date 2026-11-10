@@ -9,6 +9,7 @@ Variants
   dbt_ls_pp_only   LoadMode.DBT_LS, dbt ls cache off, Cosmos partial-parse cache on
   dbt_ls_cache     LoadMode.DBT_LS, Cosmos defaults (dbt ls cache in an Airflow Variable + partial-parse cache)
   dbt_manifest     LoadMode.DBT_MANIFEST from a pre-built target/manifest.json (dbt parse cost reported separately)
+  dbt_ls_file      LoadMode.DBT_LS_FILE from a pre-built `dbt ls --output json` file (dbt ls cost reported separately)
 
 cold = Cosmos cache dir and cosmos_cache__* Variables wiped before the run.
 warm = the run right after a cold run, caches kept, project untouched.
@@ -42,6 +43,7 @@ VARIANTS = {
     "dbt_ls_pp_only": {"mode": "dbt_ls", "env": {"AIRFLOW__COSMOS__ENABLE_CACHE_DBT_LS": "False"}},
     "dbt_ls_cache": {"mode": "dbt_ls", "env": {}},
     "dbt_manifest": {"mode": "dbt_manifest", "env": {}},
+    "dbt_ls_file": {"mode": "dbt_ls_file", "env": {}},
 }
 
 
@@ -56,6 +58,7 @@ def base_env(project: Path, dag_id: str, mode: str) -> dict[str, str]:
         BENCH_PROJECT_DIR=str(project),
         BENCH_LOAD_MODE=mode,
         BENCH_MANIFEST=str(WORK / "manifests" / project.name / "manifest.json"),
+        BENCH_DBT_LS_PATH=str(WORK / "ls-files" / project.name / "dbt_ls.txt"),
         BENCH_DAG_ID=dag_id,
         BENCH_DBT=str(ROOT / "scripts" / "dbt_shim.sh"),
         BENCH_REAL_DBT=str(DBT),
@@ -110,6 +113,23 @@ def prepare_project(n: int) -> tuple[Path, dict, float]:
     mdir = WORK / "manifests" / f"n{n}"
     mdir.mkdir(parents=True, exist_ok=True)
     shutil.move(str(proj / "target" / "manifest.json"), mdir / "manifest.json")
+    # Pre-build a dbt ls JSON file with the same --output-keys Cosmos 1.16 uses, then drop
+    # target/ so a later DBT_LS run cannot pick up partial_parse.msgpack from the project.
+    ls_dir = WORK / "ls-files" / f"n{n}"
+    ls_dir.mkdir(parents=True, exist_ok=True)
+    ls = subprocess.run(
+        [
+            str(DBT), "ls",
+            "--profiles-dir", str(ROOT / "profiles"),
+            "--project-dir", str(proj),
+            "--output", "json",
+            "--output-keys",
+            "name", "unique_id", "resource_type", "depends_on",
+            "original_file_path", "tags", "config", "freshness", "fqn",
+        ],
+        check=True, capture_output=True, text=True, cwd=proj,
+    )
+    (ls_dir / "dbt_ls.txt").write_text(ls.stdout)
     shutil.rmtree(proj / "target", ignore_errors=True)
     shutil.rmtree(proj / "logs", ignore_errors=True)
     return proj, shape, elapsed

@@ -1,0 +1,13 @@
+--- a/cosmos/dbt/graph.py	2026-11-10 10:55:20.267349985 +0400
++++ b/cosmos/dbt/graph.py	2026-11-10 10:55:20.279350275 +0400
+@@ -641,6 +641,10 @@
+         """
+         # if dbt deps, we can consider the md5 of the packages or deps file
+         cache_args = [*self.dbt_ls_output_args, *self.dbt_ls_args]
++        # dbt ls output depends on the profile/target it runs against (e.g. `enabled: "{{ target.name == 'prod' }}"`),
++        # and Cosmos passes both as --profile/--target, so they belong in the key too.
++        if self.profile_config is not None:
++            cache_args.extend(["--profile", self.profile_config.profile_name, "--target", self.profile_config.target_name])
+         env_vars = self.env_vars
+         if env_vars:
+             envvars_str = json.dumps(env_vars, sort_keys=True)

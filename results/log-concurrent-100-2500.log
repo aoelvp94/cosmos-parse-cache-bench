@@ -1,0 +1,110 @@
+[n=100] shape={'models': 100, 'staging': 40, 'intermediate': 35, 'marts': 25, 'sources': 40, 'tests': 200, 'ref_edges': 212} dbt_parse_s=4.56
+  dbt_ls_nocache  r0 cold: parse=4.54s tasks=200 dbt_ls=1 cache=off rss=122.5MB child=139.7MB
+  dbt_ls_nocache  r0 warm: parse=4.66s tasks=200 dbt_ls=1 cache=off rss=122.3MB child=139.5MB
+  dbt_ls_nocache  r1 cold: parse=4.84s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.4MB
+  dbt_ls_nocache  r1 warm: parse=4.70s tasks=200 dbt_ls=1 cache=off rss=122.3MB child=139.7MB
+  dbt_ls_nocache  r2 cold: parse=4.64s tasks=200 dbt_ls=1 cache=off rss=122.5MB child=139.9MB
+  dbt_ls_nocache  r2 warm: parse=4.73s tasks=200 dbt_ls=1 cache=off rss=122.5MB child=139.9MB
+  dbt_ls_pp_only  r0 cold: parse=4.72s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.8MB
+  dbt_ls_pp_only  r0 warm: parse=3.21s tasks=200 dbt_ls=1 cache=off rss=124.5MB child=132.6MB
+  dbt_ls_pp_only  r1 cold: parse=4.75s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.8MB
+  dbt_ls_pp_only  r1 warm: parse=3.25s tasks=200 dbt_ls=1 cache=off rss=124.6MB child=132.6MB
+  dbt_ls_pp_only  r2 cold: parse=4.77s tasks=200 dbt_ls=1 cache=off rss=122.3MB child=139.8MB
+  dbt_ls_pp_only  r2 warm: parse=3.48s tasks=200 dbt_ls=1 cache=off rss=124.4MB child=132.4MB
+  dbt_ls_cache    r0 cold: parse=5.13s tasks=200 dbt_ls=1 cache=miss rss=131.7MB child=139.8MB
+  dbt_ls_cache    r0 warm: parse=0.32s tasks=200 dbt_ls=0 cache=hit rss=131.8MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=5.13s tasks=200 dbt_ls=1 cache=miss rss=131.7MB child=139.7MB
+  dbt_ls_cache    r1 warm: parse=0.33s tasks=200 dbt_ls=0 cache=hit rss=131.8MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=4.81s tasks=200 dbt_ls=1 cache=miss rss=131.9MB child=139.7MB
+  dbt_ls_cache    r2 warm: parse=0.32s tasks=200 dbt_ls=0 cache=hit rss=131.9MB child=0.0MB
+  dbt_manifest    r0 cold: parse=0.28s tasks=200 dbt_ls=0 cache=n/a rss=131.4MB child=0.0MB
+  dbt_manifest    r0 warm: parse=0.30s tasks=200 dbt_ls=0 cache=n/a rss=131.3MB child=0.0MB
+  dbt_manifest    r1 cold: parse=0.29s tasks=200 dbt_ls=0 cache=n/a rss=131.4MB child=0.0MB
+  dbt_manifest    r1 warm: parse=0.29s tasks=200 dbt_ls=0 cache=n/a rss=131.2MB child=0.0MB
+  dbt_manifest    r2 cold: parse=0.31s tasks=200 dbt_ls=0 cache=n/a rss=131.1MB child=0.0MB
+  dbt_manifest    r2 warm: parse=0.28s tasks=200 dbt_ls=0 cache=n/a rss=131.5MB child=0.0MB
+[n=500] shape={'models': 500, 'staging': 200, 'intermediate': 175, 'marts': 125, 'sources': 200, 'tests': 1000, 'ref_edges': 1059} dbt_parse_s=7.21
+  dbt_ls_nocache  r0 cold: parse=8.69s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.7MB
+  dbt_ls_nocache  r0 warm: parse=8.29s tasks=1000 dbt_ls=1 cache=off rss=134.9MB child=155.5MB
+  dbt_ls_nocache  r1 cold: parse=8.31s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.6MB
+  dbt_ls_nocache  r1 warm: parse=8.40s tasks=1000 dbt_ls=1 cache=off rss=134.9MB child=155.4MB
+  dbt_ls_nocache  r2 cold: parse=8.15s tasks=1000 dbt_ls=1 cache=off rss=134.9MB child=155.7MB
+  dbt_ls_nocache  r2 warm: parse=8.48s tasks=1000 dbt_ls=1 cache=off rss=134.5MB child=155.7MB
+  dbt_ls_pp_only  r0 cold: parse=8.66s tasks=1000 dbt_ls=1 cache=off rss=134.6MB child=155.6MB
+  dbt_ls_pp_only  r0 warm: parse=4.82s tasks=1000 dbt_ls=1 cache=off rss=136.7MB child=152.1MB
+  dbt_ls_pp_only  r1 cold: parse=8.81s tasks=1000 dbt_ls=1 cache=off rss=134.7MB child=155.5MB
+  dbt_ls_pp_only  r1 warm: parse=4.79s tasks=1000 dbt_ls=1 cache=off rss=136.8MB child=152.2MB
+  dbt_ls_pp_only  r2 cold: parse=8.70s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.6MB
+  dbt_ls_pp_only  r2 warm: parse=4.70s tasks=1000 dbt_ls=1 cache=off rss=136.9MB child=151.9MB
+  dbt_ls_cache    r0 cold: parse=9.03s tasks=1000 dbt_ls=1 cache=miss rss=144.2MB child=155.7MB
+  dbt_ls_cache    r0 warm: parse=0.84s tasks=1000 dbt_ls=0 cache=hit rss=144.4MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=8.45s tasks=1000 dbt_ls=1 cache=miss rss=144.1MB child=155.7MB
+  dbt_ls_cache    r1 warm: parse=0.83s tasks=1000 dbt_ls=0 cache=hit rss=144.5MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=8.58s tasks=1000 dbt_ls=1 cache=miss rss=144.1MB child=155.6MB
+  dbt_ls_cache    r2 warm: parse=0.88s tasks=1000 dbt_ls=0 cache=hit rss=144.3MB child=0.0MB
+  dbt_manifest    r0 cold: parse=0.85s tasks=1000 dbt_ls=0 cache=n/a rss=144.3MB child=0.0MB
+  dbt_manifest    r0 warm: parse=0.86s tasks=1000 dbt_ls=0 cache=n/a rss=144.5MB child=0.0MB
+  dbt_manifest    r1 cold: parse=0.87s tasks=1000 dbt_ls=0 cache=n/a rss=144.6MB child=0.0MB
+  dbt_manifest    r1 warm: parse=0.85s tasks=1000 dbt_ls=0 cache=n/a rss=144.9MB child=0.0MB
+  dbt_manifest    r2 cold: parse=0.90s tasks=1000 dbt_ls=0 cache=n/a rss=144.8MB child=0.0MB
+  dbt_manifest    r2 warm: parse=0.87s tasks=1000 dbt_ls=0 cache=n/a rss=144.7MB child=0.0MB
+[n=1000] shape={'models': 1000, 'staging': 400, 'intermediate': 350, 'marts': 250, 'sources': 400, 'tests': 2000, 'ref_edges': 2130} dbt_parse_s=10.11
+  dbt_ls_nocache  r0 cold: parse=13.29s tasks=2000 dbt_ls=1 cache=off rss=150.4MB child=181.6MB
+  dbt_ls_nocache  r0 warm: parse=13.93s tasks=2000 dbt_ls=1 cache=off rss=150.0MB child=181.6MB
+  dbt_ls_nocache  r1 cold: parse=14.18s tasks=2000 dbt_ls=1 cache=off rss=150.3MB child=181.6MB
+  dbt_ls_nocache  r1 warm: parse=14.78s tasks=2000 dbt_ls=1 cache=off rss=150.3MB child=181.2MB
+  dbt_ls_nocache  r2 cold: parse=13.84s tasks=2000 dbt_ls=1 cache=off rss=150.3MB child=181.5MB
+  dbt_ls_nocache  r2 warm: parse=13.38s tasks=2000 dbt_ls=1 cache=off rss=150.1MB child=181.7MB
+  dbt_ls_pp_only  r0 cold: parse=13.31s tasks=2000 dbt_ls=1 cache=off rss=150.2MB child=181.4MB
+  dbt_ls_pp_only  r0 warm: parse=6.67s tasks=2000 dbt_ls=1 cache=off rss=152.3MB child=183.7MB
+  dbt_ls_pp_only  r1 cold: parse=13.47s tasks=2000 dbt_ls=1 cache=off rss=150.5MB child=181.8MB
+  dbt_ls_pp_only  r1 warm: parse=6.62s tasks=2000 dbt_ls=1 cache=off rss=152.4MB child=183.6MB
+  dbt_ls_pp_only  r2 cold: parse=13.44s tasks=2000 dbt_ls=1 cache=off rss=150.2MB child=181.5MB
+  dbt_ls_pp_only  r2 warm: parse=6.36s tasks=2000 dbt_ls=1 cache=off rss=152.5MB child=183.8MB
+  dbt_ls_cache    r0 cold: parse=14.20s tasks=2000 dbt_ls=1 cache=miss rss=159.9MB child=181.3MB
+  dbt_ls_cache    r0 warm: parse=1.78s tasks=2000 dbt_ls=0 cache=hit rss=160.0MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=14.31s tasks=2000 dbt_ls=1 cache=miss rss=159.7MB child=181.6MB
+  dbt_ls_cache    r1 warm: parse=1.80s tasks=2000 dbt_ls=0 cache=hit rss=159.8MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=13.47s tasks=2000 dbt_ls=1 cache=miss rss=159.6MB child=181.5MB
+  dbt_ls_cache    r2 warm: parse=1.70s tasks=2000 dbt_ls=0 cache=hit rss=159.5MB child=0.0MB
+  dbt_manifest    r0 cold: parse=1.65s tasks=2000 dbt_ls=0 cache=n/a rss=161.3MB child=0.0MB
+  dbt_manifest    r0 warm: parse=1.55s tasks=2000 dbt_ls=0 cache=n/a rss=161.3MB child=0.0MB
+  dbt_manifest    r1 cold: parse=1.61s tasks=2000 dbt_ls=0 cache=n/a rss=161.3MB child=0.0MB
+  dbt_manifest    r1 warm: parse=1.58s tasks=2000 dbt_ls=0 cache=n/a rss=161.3MB child=0.0MB
+  dbt_manifest    r2 cold: parse=1.53s tasks=2000 dbt_ls=0 cache=n/a rss=161.5MB child=0.0MB
+  dbt_manifest    r2 warm: parse=1.56s tasks=2000 dbt_ls=0 cache=n/a rss=161.5MB child=0.0MB
+[n=2500] shape={'models': 2500, 'staging': 1000, 'intermediate': 875, 'marts': 625, 'sources': 1000, 'tests': 5000, 'ref_edges': 5337} dbt_parse_s=19.90
+  dbt_ls_nocache  r0 cold: parse=27.60s tasks=5000 dbt_ls=1 cache=off rss=198.8MB child=262.6MB
+  dbt_ls_nocache  r0 warm: parse=27.83s tasks=5000 dbt_ls=1 cache=off rss=198.4MB child=262.7MB
+  dbt_ls_nocache  r1 cold: parse=27.00s tasks=5000 dbt_ls=1 cache=off rss=198.7MB child=262.5MB
+  dbt_ls_nocache  r1 warm: parse=29.91s tasks=5000 dbt_ls=1 cache=off rss=198.6MB child=262.5MB
+  dbt_ls_nocache  r2 cold: parse=27.81s tasks=5000 dbt_ls=1 cache=off rss=198.7MB child=262.4MB
+  dbt_ls_nocache  r2 warm: parse=27.64s tasks=5000 dbt_ls=1 cache=off rss=198.6MB child=262.7MB
+  dbt_ls_pp_only  r0 cold: parse=27.42s tasks=5000 dbt_ls=1 cache=off rss=198.5MB child=262.5MB
+  dbt_ls_pp_only  r0 warm: parse=12.31s tasks=5000 dbt_ls=1 cache=off rss=199.1MB child=268.1MB
+  dbt_ls_pp_only  r1 cold: parse=27.72s tasks=5000 dbt_ls=1 cache=off rss=198.7MB child=262.3MB
+  dbt_ls_pp_only  r1 warm: parse=12.50s tasks=5000 dbt_ls=1 cache=off rss=199.1MB child=267.9MB
+  dbt_ls_pp_only  r2 cold: parse=27.47s tasks=5000 dbt_ls=1 cache=off rss=198.6MB child=262.6MB
+  dbt_ls_pp_only  r2 warm: parse=12.31s tasks=5000 dbt_ls=1 cache=off rss=199.4MB child=268.1MB
+  dbt_ls_cache    r0 cold: parse=27.02s tasks=5000 dbt_ls=1 cache=miss rss=209.1MB child=262.5MB
+  dbt_ls_cache    r0 warm: parse=4.62s tasks=5000 dbt_ls=0 cache=hit rss=208.4MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=27.33s tasks=5000 dbt_ls=1 cache=miss rss=208.9MB child=262.3MB
+  dbt_ls_cache    r1 warm: parse=4.65s tasks=5000 dbt_ls=0 cache=hit rss=208.4MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=27.36s tasks=5000 dbt_ls=1 cache=miss rss=208.9MB child=262.3MB
+  dbt_ls_cache    r2 warm: parse=4.91s tasks=5000 dbt_ls=0 cache=hit rss=208.3MB child=0.0MB
+  dbt_manifest    r0 cold: parse=4.80s tasks=5000 dbt_ls=0 cache=n/a rss=209.4MB child=0.0MB
+  dbt_manifest    r0 warm: parse=4.74s tasks=5000 dbt_ls=0 cache=n/a rss=209.5MB child=0.0MB
+  dbt_manifest    r1 cold: parse=4.61s tasks=5000 dbt_ls=0 cache=n/a rss=209.3MB child=0.0MB
+  dbt_manifest    r1 warm: parse=4.70s tasks=5000 dbt_ls=0 cache=n/a rss=209.5MB child=0.0MB
+  dbt_manifest    r2 cold: parse=5.00s tasks=5000 dbt_ls=0 cache=n/a rss=209.1MB child=0.0MB
+  dbt_manifest    r2 warm: parse=4.83s tasks=5000 dbt_ls=0 cache=n/a rss=209.5MB child=0.0MB
+[n=5000] shape={'models': 5000, 'staging': 2000, 'intermediate': 1750, 'marts': 1250, 'sources': 2000, 'tests': 10000, 'ref_edges': 10628} dbt_parse_s=37.55
+Traceback (most recent call last):
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 165, in <module>
+    main()
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 134, in main
+    res = parse_once(env)
+          ^^^^^^^^^^^^^^^
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 87, in parse_once
+    raise RuntimeError(f"import errors: {res['import_errors']}")
+RuntimeError: import errors: {'/workspace/cosmos-parse-cache-bench/dags/cosmos_bench_dag.py': 'tions.AirflowTaskTimeout: DagBag import timeout for /workspace/cosmos-parse-cache-bench/dags/cosmos_bench_dag.py after 30.0s.\nPlease take a look at these docs to improve your DAG import time:\n* https://airflow.apache.org/docs/apache-airflow/3.3.2/best-practices.html#top-level-python-code\n* https://airflow.apache.org/docs/apache-airflow/3.3.2/best-practices.html#reducing-dag-complexity, PID: 84078\n'}

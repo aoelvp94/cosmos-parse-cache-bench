@@ -1,0 +1,108 @@
++ cd /workspace/cosmos-parse-cache-bench
++ .venv/bin/python scripts/bench.py --sizes 5000 --rounds 1 --tag n5000-default-timeout
+[n=5000] shape={'models': 5000, 'staging': 2000, 'intermediate': 1750, 'marts': 1250, 'sources': 2000, 'tests': 10000, 'ref_edges': 10628} dbt_parse_s=37.39
+  dbt_ls_nocache  r0 cold: parse=TIMEOUT tasks=0 dbt_ls=1 cache=off rss=119.1MB child=0.0MB
+  dbt_ls_nocache  r0 warm: parse=TIMEOUT tasks=0 dbt_ls=1 cache=off rss=119.3MB child=0.0MB
+  dbt_ls_pp_only  r0 cold: parse=TIMEOUT tasks=0 dbt_ls=1 cache=off rss=119.4MB child=0.0MB
+  dbt_ls_pp_only  r0 warm: parse=TIMEOUT tasks=0 dbt_ls=1 cache=off rss=119.2MB child=0.0MB
+  dbt_ls_cache    r0 cold: parse=TIMEOUT tasks=0 dbt_ls=1 cache=miss rss=127.1MB child=0.0MB
+  dbt_ls_cache    r0 warm: parse=TIMEOUT tasks=0 dbt_ls=1 cache=miss rss=127.1MB child=0.0MB
+  dbt_manifest    r0 cold: parse=14.20s tasks=10000 dbt_ls=0 cache=n/a rss=290.7MB child=0.0MB
+  dbt_manifest    r0 warm: parse=14.59s tasks=10000 dbt_ls=0 cache=n/a rss=290.9MB child=0.0MB
+| models | variant | phase | parse s (median) | min | max | tasks | dbt ls calls | cache | peak RSS MB | dbt child peak MB | rounds |
+|---:|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| 5000 | dbt_ls_nocache | cold | import timeout | | | 0 | 1 | off | | | 1 (1 timeouts) |
+| 5000 | dbt_ls_nocache | warm | import timeout | | | 0 | 1 | off | | | 1 (1 timeouts) |
+| 5000 | dbt_ls_pp_only | cold | import timeout | | | 0 | 1 | off | | | 1 (1 timeouts) |
+| 5000 | dbt_ls_pp_only | warm | import timeout | | | 0 | 1 | off | | | 1 (1 timeouts) |
+| 5000 | dbt_ls_cache | cold | import timeout | | | 0 | 1 | miss | | | 1 (1 timeouts) |
+| 5000 | dbt_ls_cache | warm | import timeout | | | 0 | 1 | miss | | | 1 (1 timeouts) |
+| 5000 | dbt_manifest | cold | 14.20 | 14.20 | 14.20 | 10000 | 0 | n/a | 291 | 0 | 1 |
+| 5000 | dbt_manifest | warm | 14.59 | 14.59 | 14.59 | 10000 | 0 | n/a | 291 | 0 | 1 |
+
++ .venv/bin/python scripts/bench.py --sizes 5000 --rounds 3 --tag n5000-timeout600 --import-timeout 600
+[n=5000] shape={'models': 5000, 'staging': 2000, 'intermediate': 1750, 'marts': 1250, 'sources': 2000, 'tests': 10000, 'ref_edges': 10628} dbt_parse_s=38.43
+  dbt_ls_nocache  r0 cold: parse=58.08s tasks=10000 dbt_ls=1 cache=off rss=275.6MB child=397.4MB
+  dbt_ls_nocache  r0 warm: parse=57.87s tasks=10000 dbt_ls=1 cache=off rss=275.6MB child=397.4MB
+  dbt_ls_nocache  r1 cold: parse=58.57s tasks=10000 dbt_ls=1 cache=off rss=275.1MB child=397.4MB
+  dbt_ls_nocache  r1 warm: parse=57.92s tasks=10000 dbt_ls=1 cache=off rss=275.1MB child=397.6MB
+  dbt_ls_nocache  r2 cold: parse=58.28s tasks=10000 dbt_ls=1 cache=off rss=275.6MB child=397.6MB
+  dbt_ls_nocache  r2 warm: parse=56.30s tasks=10000 dbt_ls=1 cache=off rss=275.3MB child=397.9MB
+  dbt_ls_pp_only  r0 cold: parse=58.20s tasks=10000 dbt_ls=1 cache=off rss=275.6MB child=397.7MB
+  dbt_ls_pp_only  r0 warm: parse=28.30s tasks=10000 dbt_ls=1 cache=off rss=277.3MB child=413.9MB
+  dbt_ls_pp_only  r1 cold: parse=60.95s tasks=10000 dbt_ls=1 cache=off rss=275.6MB child=397.5MB
+  dbt_ls_pp_only  r1 warm: parse=26.66s tasks=10000 dbt_ls=1 cache=off rss=277.3MB child=413.7MB
+  dbt_ls_pp_only  r2 cold: parse=59.61s tasks=10000 dbt_ls=1 cache=off rss=275.8MB child=397.4MB
+  dbt_ls_pp_only  r2 warm: parse=27.51s tasks=10000 dbt_ls=1 cache=off rss=277.4MB child=413.8MB
+  dbt_ls_cache    r0 cold: parse=58.39s tasks=10000 dbt_ls=1 cache=miss rss=286.7MB child=397.5MB
+  dbt_ls_cache    r0 warm: parse=13.10s tasks=10000 dbt_ls=0 cache=hit rss=285.4MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=56.79s tasks=10000 dbt_ls=1 cache=miss rss=286.7MB child=397.5MB
+  dbt_ls_cache    r1 warm: parse=12.87s tasks=10000 dbt_ls=0 cache=hit rss=285.2MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=57.99s tasks=10000 dbt_ls=1 cache=miss rss=286.7MB child=397.8MB
+  dbt_ls_cache    r2 warm: parse=13.33s tasks=10000 dbt_ls=0 cache=hit rss=285.2MB child=0.0MB
+  dbt_manifest    r0 cold: parse=13.58s tasks=10000 dbt_ls=0 cache=n/a rss=291.9MB child=0.0MB
+  dbt_manifest    r0 warm: parse=13.87s tasks=10000 dbt_ls=0 cache=n/a rss=290.9MB child=0.0MB
+  dbt_manifest    r1 cold: parse=13.53s tasks=10000 dbt_ls=0 cache=n/a rss=291.9MB child=0.0MB
+  dbt_manifest    r1 warm: parse=12.74s tasks=10000 dbt_ls=0 cache=n/a rss=290.8MB child=0.0MB
+  dbt_manifest    r2 cold: parse=13.52s tasks=10000 dbt_ls=0 cache=n/a rss=290.9MB child=0.0MB
+  dbt_manifest    r2 warm: parse=13.18s tasks=10000 dbt_ls=0 cache=n/a rss=290.7MB child=0.0MB
+| models | variant | phase | parse s (median) | min | max | tasks | dbt ls calls | cache | peak RSS MB | dbt child peak MB | rounds |
+|---:|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| 5000 | dbt_ls_nocache | cold | 58.28 | 58.08 | 58.57 | 10000 | 1 | off | 276 | 397 | 3 |
+| 5000 | dbt_ls_nocache | warm | 57.87 | 56.30 | 57.92 | 10000 | 1 | off | 275 | 398 | 3 |
+| 5000 | dbt_ls_pp_only | cold | 59.61 | 58.20 | 60.95 | 10000 | 1 | off | 276 | 398 | 3 |
+| 5000 | dbt_ls_pp_only | warm | 27.51 | 26.66 | 28.30 | 10000 | 1 | off | 277 | 414 | 3 |
+| 5000 | dbt_ls_cache | cold | 57.99 | 56.79 | 58.39 | 10000 | 1 | miss | 287 | 398 | 3 |
+| 5000 | dbt_ls_cache | warm | 13.10 | 12.87 | 13.33 | 10000 | 0 | hit | 285 | 0 | 3 |
+| 5000 | dbt_manifest | cold | 13.53 | 13.52 | 13.58 | 10000 | 0 | n/a | 292 | 0 | 3 |
+| 5000 | dbt_manifest | warm | 13.18 | 12.74 | 13.87 | 10000 | 0 | n/a | 291 | 0 | 3 |
+
++ .venv/bin/python scripts/bench.py --sizes 100,500,1000,2500 --rounds 3 --tag n100-2500
+[n=100] shape={'models': 100, 'staging': 40, 'intermediate': 35, 'marts': 25, 'sources': 40, 'tests': 200, 'ref_edges': 212} dbt_parse_s=4.70
+  dbt_ls_nocache  r0 cold: parse=4.61s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.8MB
+  dbt_ls_nocache  r0 warm: parse=5.03s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.8MB
+  dbt_ls_nocache  r1 cold: parse=5.14s tasks=200 dbt_ls=1 cache=off rss=122.7MB child=139.8MB
+  dbt_ls_nocache  r1 warm: parse=4.98s tasks=200 dbt_ls=1 cache=off rss=122.6MB child=139.6MB
+  dbt_ls_nocache  r2 cold: parse=5.07s tasks=200 dbt_ls=1 cache=off rss=122.5MB child=139.9MB
+  dbt_ls_nocache  r2 warm: parse=5.22s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.9MB
+  dbt_ls_pp_only  r0 cold: parse=5.42s tasks=200 dbt_ls=1 cache=off rss=122.1MB child=139.5MB
+  dbt_ls_pp_only  r0 warm: parse=3.40s tasks=200 dbt_ls=1 cache=off rss=124.2MB child=132.6MB
+  dbt_ls_pp_only  r1 cold: parse=4.80s tasks=200 dbt_ls=1 cache=off rss=122.2MB child=139.8MB
+  dbt_ls_pp_only  r1 warm: parse=3.27s tasks=200 dbt_ls=1 cache=off rss=124.4MB child=132.4MB
+  dbt_ls_pp_only  r2 cold: parse=4.87s tasks=200 dbt_ls=1 cache=off rss=122.4MB child=139.8MB
+  dbt_ls_pp_only  r2 warm: parse=3.25s tasks=200 dbt_ls=1 cache=off rss=124.5MB child=132.5MB
+  dbt_ls_cache    r0 cold: parse=5.03s tasks=200 dbt_ls=1 cache=miss rss=131.6MB child=139.9MB
+  dbt_ls_cache    r0 warm: parse=0.35s tasks=200 dbt_ls=0 cache=hit rss=131.5MB child=0.0MB
+  dbt_ls_cache    r1 cold: parse=5.03s tasks=200 dbt_ls=1 cache=miss rss=131.5MB child=139.8MB
+  dbt_ls_cache    r1 warm: parse=0.34s tasks=200 dbt_ls=0 cache=hit rss=131.5MB child=0.0MB
+  dbt_ls_cache    r2 cold: parse=4.99s tasks=200 dbt_ls=1 cache=miss rss=131.1MB child=139.8MB
+  dbt_ls_cache    r2 warm: parse=0.36s tasks=200 dbt_ls=0 cache=hit rss=131.7MB child=0.0MB
+  dbt_manifest    r0 cold: parse=0.30s tasks=200 dbt_ls=0 cache=n/a rss=131.4MB child=0.0MB
+  dbt_manifest    r0 warm: parse=0.28s tasks=200 dbt_ls=0 cache=n/a rss=131.3MB child=0.0MB
+  dbt_manifest    r1 cold: parse=0.28s tasks=200 dbt_ls=0 cache=n/a rss=131.3MB child=0.0MB
+  dbt_manifest    r1 warm: parse=0.29s tasks=200 dbt_ls=0 cache=n/a rss=131.3MB child=0.0MB
+  dbt_manifest    r2 cold: parse=0.29s tasks=200 dbt_ls=0 cache=n/a rss=131.4MB child=0.0MB
+  dbt_manifest    r2 warm: parse=0.28s tasks=200 dbt_ls=0 cache=n/a rss=131.2MB child=0.0MB
+[n=500] shape={'models': 500, 'staging': 200, 'intermediate': 175, 'marts': 125, 'sources': 200, 'tests': 1000, 'ref_edges': 1059} dbt_parse_s=7.18
+  dbt_ls_nocache  r0 cold: parse=8.28s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.4MB
+  dbt_ls_nocache  r0 warm: parse=8.44s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.9MB
+  dbt_ls_nocache  r1 cold: parse=8.34s tasks=1000 dbt_ls=1 cache=off rss=135.1MB child=155.6MB
+  dbt_ls_nocache  r1 warm: parse=8.16s tasks=1000 dbt_ls=1 cache=off rss=134.6MB child=155.8MB
+  dbt_ls_nocache  r2 cold: parse=8.14s tasks=1000 dbt_ls=1 cache=off rss=134.8MB child=155.6MB
+  dbt_ls_nocache  r2 warm: parse=8.35s tasks=1000 dbt_ls=1 cache=off rss=134.9MB child=155.6MB
+  dbt_ls_pp_only  r0 cold: parse=8.38s tasks=1000 dbt_ls=1 cache=off rss=134.9MB child=155.5MB
+  dbt_ls_pp_only  r0 warm: parse=4.78s tasks=1000 dbt_ls=1 cache=off rss=136.8MB child=151.8MB
+  dbt_ls_pp_only  r1 cold: parse=8.61s tasks=1000 dbt_ls=1 cache=off rss=134.6MB child=155.5MB
+  dbt_ls_pp_only  r1 warm: parse=5.21s tasks=1000 dbt_ls=1 cache=off rss=136.6MB child=151.7MB
+  dbt_ls_pp_only  r2 cold: parse=9.04s tasks=1000 dbt_ls=1 cache=off rss=134.6MB child=155.4MB
+Traceback (most recent call last):
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 188, in <module>
+    ]
+    ^^
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 146, in main
+    a = ap.parse_args()
+                        
+  File "/workspace/cosmos-parse-cache-bench/scripts/bench.py", line 94, in parse_once
+    res["status"] = "import_timeout"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: import errors: {'/workspace/cosmos-parse-cache-bench/dags/cosmos_bench_dag.py': 'ord(*call_args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/workspace/cosmos-parse-cache-bench/.venv-dbt/lib/python3.12/site-packages/dbt_common/clients/system.py", line 183, in load_file_contents\n    with open(path, "rb") as handle:\n         ^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: \'/tmp/tmp25oxrpls/models/intermediate/support/_schema.yml\'\n\n\n'}

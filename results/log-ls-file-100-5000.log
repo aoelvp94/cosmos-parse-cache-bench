@@ -1,0 +1,48 @@
+[n=100] shape={'models': 100, 'staging': 40, 'intermediate': 35, 'marts': 25, 'sources': 40, 'tests': 200, 'ref_edges': 212} dbt_parse_s=4.84
+  dbt_ls_file     r0 cold: parse=0.17s tasks=200 dbt_ls=0 cache=n/a rss=122.4MB child=0.0MB
+  dbt_ls_file     r0 warm: parse=0.19s tasks=200 dbt_ls=0 cache=n/a rss=121.8MB child=0.0MB
+  dbt_ls_file     r1 cold: parse=0.22s tasks=200 dbt_ls=0 cache=n/a rss=122.2MB child=0.0MB
+  dbt_ls_file     r1 warm: parse=0.16s tasks=200 dbt_ls=0 cache=n/a rss=122.8MB child=0.0MB
+  dbt_ls_file     r2 cold: parse=0.18s tasks=200 dbt_ls=0 cache=n/a rss=122.6MB child=0.0MB
+  dbt_ls_file     r2 warm: parse=0.19s tasks=200 dbt_ls=0 cache=n/a rss=122.1MB child=0.0MB
+[n=500] shape={'models': 500, 'staging': 200, 'intermediate': 175, 'marts': 125, 'sources': 200, 'tests': 1000, 'ref_edges': 1059} dbt_parse_s=7.41
+  dbt_ls_file     r0 cold: parse=0.76s tasks=1000 dbt_ls=0 cache=n/a rss=134.7MB child=0.0MB
+  dbt_ls_file     r0 warm: parse=0.78s tasks=1000 dbt_ls=0 cache=n/a rss=134.8MB child=0.0MB
+  dbt_ls_file     r1 cold: parse=0.78s tasks=1000 dbt_ls=0 cache=n/a rss=134.9MB child=0.0MB
+  dbt_ls_file     r1 warm: parse=0.76s tasks=1000 dbt_ls=0 cache=n/a rss=135.1MB child=0.0MB
+  dbt_ls_file     r2 cold: parse=0.75s tasks=1000 dbt_ls=0 cache=n/a rss=134.8MB child=0.0MB
+  dbt_ls_file     r2 warm: parse=0.79s tasks=1000 dbt_ls=0 cache=n/a rss=134.9MB child=0.0MB
+[n=1000] shape={'models': 1000, 'staging': 400, 'intermediate': 350, 'marts': 250, 'sources': 400, 'tests': 2000, 'ref_edges': 2130} dbt_parse_s=11.07
+  dbt_ls_file     r0 cold: parse=1.58s tasks=2000 dbt_ls=0 cache=n/a rss=150.4MB child=0.0MB
+  dbt_ls_file     r0 warm: parse=1.52s tasks=2000 dbt_ls=0 cache=n/a rss=150.3MB child=0.0MB
+  dbt_ls_file     r1 cold: parse=1.52s tasks=2000 dbt_ls=0 cache=n/a rss=150.3MB child=0.0MB
+  dbt_ls_file     r1 warm: parse=1.48s tasks=2000 dbt_ls=0 cache=n/a rss=150.5MB child=0.0MB
+  dbt_ls_file     r2 cold: parse=1.55s tasks=2000 dbt_ls=0 cache=n/a rss=150.5MB child=0.0MB
+  dbt_ls_file     r2 warm: parse=1.51s tasks=2000 dbt_ls=0 cache=n/a rss=150.2MB child=0.0MB
+[n=2500] shape={'models': 2500, 'staging': 1000, 'intermediate': 875, 'marts': 625, 'sources': 1000, 'tests': 5000, 'ref_edges': 5337} dbt_parse_s=20.24
+  dbt_ls_file     r0 cold: parse=4.34s tasks=5000 dbt_ls=0 cache=n/a rss=198.7MB child=0.0MB
+  dbt_ls_file     r0 warm: parse=4.27s tasks=5000 dbt_ls=0 cache=n/a rss=198.8MB child=0.0MB
+  dbt_ls_file     r1 cold: parse=4.23s tasks=5000 dbt_ls=0 cache=n/a rss=198.8MB child=0.0MB
+  dbt_ls_file     r1 warm: parse=4.27s tasks=5000 dbt_ls=0 cache=n/a rss=198.9MB child=0.0MB
+  dbt_ls_file     r2 cold: parse=4.40s tasks=5000 dbt_ls=0 cache=n/a rss=199.0MB child=0.0MB
+  dbt_ls_file     r2 warm: parse=4.28s tasks=5000 dbt_ls=0 cache=n/a rss=198.8MB child=0.0MB
+[n=5000] shape={'models': 5000, 'staging': 2000, 'intermediate': 1750, 'marts': 1250, 'sources': 2000, 'tests': 10000, 'ref_edges': 10628} dbt_parse_s=35.44
+  dbt_ls_file     r0 cold: parse=12.15s tasks=10000 dbt_ls=0 cache=n/a rss=275.8MB child=0.0MB
+  dbt_ls_file     r0 warm: parse=12.41s tasks=10000 dbt_ls=0 cache=n/a rss=275.9MB child=0.0MB
+  dbt_ls_file     r1 cold: parse=12.20s tasks=10000 dbt_ls=0 cache=n/a rss=275.7MB child=0.0MB
+  dbt_ls_file     r1 warm: parse=12.68s tasks=10000 dbt_ls=0 cache=n/a rss=275.8MB child=0.0MB
+  dbt_ls_file     r2 cold: parse=12.77s tasks=10000 dbt_ls=0 cache=n/a rss=276.0MB child=0.0MB
+  dbt_ls_file     r2 warm: parse=12.66s tasks=10000 dbt_ls=0 cache=n/a rss=275.8MB child=0.0MB
+| models | variant | phase | parse s (median) | min | max | tasks | dbt ls calls | cache | peak RSS MB | dbt child peak MB | rounds |
+|---:|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| 100 | dbt_ls_file | cold | 0.18 | 0.17 | 0.22 | 200 | 0 | n/a | 122 | 0 | 3 |
+| 100 | dbt_ls_file | warm | 0.19 | 0.16 | 0.19 | 200 | 0 | n/a | 122 | 0 | 3 |
+| 500 | dbt_ls_file | cold | 0.76 | 0.75 | 0.78 | 1000 | 0 | n/a | 135 | 0 | 3 |
+| 500 | dbt_ls_file | warm | 0.78 | 0.76 | 0.79 | 1000 | 0 | n/a | 135 | 0 | 3 |
+| 1000 | dbt_ls_file | cold | 1.55 | 1.52 | 1.58 | 2000 | 0 | n/a | 150 | 0 | 3 |
+| 1000 | dbt_ls_file | warm | 1.51 | 1.48 | 1.52 | 2000 | 0 | n/a | 150 | 0 | 3 |
+| 2500 | dbt_ls_file | cold | 4.34 | 4.23 | 4.40 | 5000 | 0 | n/a | 199 | 0 | 3 |
+| 2500 | dbt_ls_file | warm | 4.27 | 4.27 | 4.28 | 5000 | 0 | n/a | 199 | 0 | 3 |
+| 5000 | dbt_ls_file | cold | 12.20 | 12.15 | 12.77 | 10000 | 0 | n/a | 276 | 0 | 3 |
+| 5000 | dbt_ls_file | warm | 12.66 | 12.41 | 12.68 | 10000 | 0 | n/a | 276 | 0 | 3 |
+

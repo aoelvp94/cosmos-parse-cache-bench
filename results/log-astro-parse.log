@@ -1,0 +1,27 @@
+Checking your Dags for errors…
+f0bf66f704e3bbfe3064f5e88ded9077d656ceb05b9e83ebd5222267bbd9911e
+Astro Runtime Version: 3.3-12
+============================= test session starts ==============================
+platform linux -- Python 3.14.10, pytest-9.2.0, pluggy-1.6.0
+rootdir: /
+configfile: pyproject.toml
+plugins: platformdirs-4.14.5, anyio-4.14.2
+collected 2 items
+
+.astro/test_dag_integrity_default.py ..                                  [100%]
+
+=============================== warnings summary ===============================
+../lib/python3.14/site-packages/anyio/pytest_plugin.py:14
+  /usr/local/lib/python3.14/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+../lib/python3.14/site-packages/_pytest/cacheprovider.py:487
+  /usr/local/lib/python3.14/site-packages/_pytest/cacheprovider.py:487: PytestCacheWarning: could not create cache path /.pytest_cache/v/cache/nodeids: [Errno 13] Permission denied: '/pytest-cache-files-4hfg9agc'
+    config.cache.set("cache/nodeids", sorted(str(n) for n in self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 2 passed, 2 warnings in 10.61s ========================
+✔ No errors detected in your Dags 

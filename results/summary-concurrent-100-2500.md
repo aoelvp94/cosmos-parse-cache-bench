@@ -1,0 +1,34 @@
+| models | variant | phase | parse s (median) | min | max | tasks | dbt ls calls | cache | peak RSS MB | dbt child peak MB | rounds |
+|---:|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|
+| 100 | dbt_ls_nocache | cold | 4.64 | 4.54 | 4.84 | 200 | 1 | off | 122 | 140 | 3 |
+| 100 | dbt_ls_nocache | warm | 4.70 | 4.66 | 4.73 | 200 | 1 | off | 122 | 140 | 3 |
+| 100 | dbt_ls_pp_only | cold | 4.75 | 4.72 | 4.77 | 200 | 1 | off | 122 | 140 | 3 |
+| 100 | dbt_ls_pp_only | warm | 3.25 | 3.21 | 3.48 | 200 | 1 | off | 124 | 133 | 3 |
+| 100 | dbt_ls_cache | cold | 5.13 | 4.81 | 5.13 | 200 | 1 | miss | 132 | 140 | 3 |
+| 100 | dbt_ls_cache | warm | 0.32 | 0.32 | 0.33 | 200 | 0 | hit | 132 | 0 | 3 |
+| 100 | dbt_manifest | cold | 0.29 | 0.28 | 0.31 | 200 | 0 | n/a | 131 | 0 | 3 |
+| 100 | dbt_manifest | warm | 0.29 | 0.28 | 0.30 | 200 | 0 | n/a | 131 | 0 | 3 |
+| 500 | dbt_ls_nocache | cold | 8.31 | 8.15 | 8.69 | 1000 | 1 | off | 135 | 156 | 3 |
+| 500 | dbt_ls_nocache | warm | 8.40 | 8.29 | 8.48 | 1000 | 1 | off | 135 | 156 | 3 |
+| 500 | dbt_ls_pp_only | cold | 8.70 | 8.66 | 8.81 | 1000 | 1 | off | 135 | 156 | 3 |
+| 500 | dbt_ls_pp_only | warm | 4.79 | 4.70 | 4.82 | 1000 | 1 | off | 137 | 152 | 3 |
+| 500 | dbt_ls_cache | cold | 8.58 | 8.45 | 9.03 | 1000 | 1 | miss | 144 | 156 | 3 |
+| 500 | dbt_ls_cache | warm | 0.84 | 0.83 | 0.88 | 1000 | 0 | hit | 144 | 0 | 3 |
+| 500 | dbt_manifest | cold | 0.87 | 0.85 | 0.90 | 1000 | 0 | n/a | 145 | 0 | 3 |
+| 500 | dbt_manifest | warm | 0.86 | 0.85 | 0.87 | 1000 | 0 | n/a | 145 | 0 | 3 |
+| 1000 | dbt_ls_nocache | cold | 13.84 | 13.29 | 14.18 | 2000 | 1 | off | 150 | 182 | 3 |
+| 1000 | dbt_ls_nocache | warm | 13.93 | 13.38 | 14.78 | 2000 | 1 | off | 150 | 182 | 3 |
+| 1000 | dbt_ls_pp_only | cold | 13.44 | 13.31 | 13.47 | 2000 | 1 | off | 150 | 182 | 3 |
+| 1000 | dbt_ls_pp_only | warm | 6.62 | 6.36 | 6.67 | 2000 | 1 | off | 152 | 184 | 3 |
+| 1000 | dbt_ls_cache | cold | 14.20 | 13.47 | 14.31 | 2000 | 1 | miss | 160 | 182 | 3 |
+| 1000 | dbt_ls_cache | warm | 1.78 | 1.70 | 1.80 | 2000 | 0 | hit | 160 | 0 | 3 |
+| 1000 | dbt_manifest | cold | 1.61 | 1.53 | 1.65 | 2000 | 0 | n/a | 161 | 0 | 3 |
+| 1000 | dbt_manifest | warm | 1.56 | 1.55 | 1.58 | 2000 | 0 | n/a | 161 | 0 | 3 |
+| 2500 | dbt_ls_nocache | cold | 27.60 | 27.00 | 27.81 | 5000 | 1 | off | 199 | 262 | 3 |
+| 2500 | dbt_ls_nocache | warm | 27.83 | 27.64 | 29.91 | 5000 | 1 | off | 199 | 263 | 3 |
+| 2500 | dbt_ls_pp_only | cold | 27.47 | 27.42 | 27.72 | 5000 | 1 | off | 199 | 262 | 3 |
+| 2500 | dbt_ls_pp_only | warm | 12.31 | 12.31 | 12.50 | 5000 | 1 | off | 199 | 268 | 3 |
+| 2500 | dbt_ls_cache | cold | 27.33 | 27.02 | 27.36 | 5000 | 1 | miss | 209 | 262 | 3 |
+| 2500 | dbt_ls_cache | warm | 4.65 | 4.62 | 4.91 | 5000 | 0 | hit | 208 | 0 | 3 |
+| 2500 | dbt_manifest | cold | 4.80 | 4.61 | 5.00 | 5000 | 0 | n/a | 209 | 0 | 3 |
+| 2500 | dbt_manifest | warm | 4.74 | 4.70 | 4.83 | 5000 | 0 | n/a | 210 | 0 | 3 |

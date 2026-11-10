@@ -39,9 +39,10 @@ setup-pr3179-target:
     just setup-ref pr3179-target sohailshk/astronomer-cosmos 5056f941a9a4bd796f60fad817caffcbc2e07fef
     patch -p1 -d .venv-pr3179-target/lib/python3.12/site-packages < patches/2960-profile-target-in-dbt-ls-cache-key.patch
 
-# Cosmos from a local checkout (default: the profile/target cache-key fix at 41ad52b3).
+# Cosmos with the profile/target cache-key fix (default: the fork branch at 41ad52b3).
+# Pass a local checkout path or another pip spec as `src` to test something else.
 # Reuses the already-provisioned .venv-main Airflow install and replaces Cosmos.
-setup-fix src="/workspace/cosmos-upstream":
+setup-fix src="astronomer-cosmos @ git+https://github.com/aoelvp94/astronomer-cosmos@41ad52b3be64ad3a4099d444ec86557d731c409a":
     #!/usr/bin/env bash
     set -euo pipefail
     if [ ! -x .venv-main/bin/python ]; then
@@ -77,7 +78,7 @@ repro-2960 venv=".venv" label="cosmos-1.16.0":
 repro-2739 venv=".venv" label="cosmos-1.16.0":
     REPRO_PY={{justfile_directory()}}/{{venv}}/bin/python .venv/bin/python repro/repro_2739.py --label {{label}}
 
-# End-to-end DagBag repro: switch the DAG target dev→prod on Cosmos main vs the local fix
+# End-to-end DagBag repro: switch the DAG target dev→prod on Cosmos main vs the fix
 repro-target-switch:
     #!/usr/bin/env bash
     set -euo pipefail

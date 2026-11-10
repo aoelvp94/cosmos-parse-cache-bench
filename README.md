@@ -88,7 +88,7 @@ just repro-2960 .venv-pr3179 cosmos-pr3179
 just repro-2960 .venv-pr3179-target cosmos-pr3179-plus-target
 just repro-2739 .venv cosmos-1.16.0
 just repro-2739 .venv-pr3136 cosmos-pr3136
-just setup-fix                    # .venv-fix from a local Cosmos checkout (default /workspace/cosmos-upstream)
+just setup-fix                    # .venv-fix with the profile/target fix (fork branch, 41ad52b3)
 just repro-target-switch          # DagBag e2e: dev→prod on main vs the fix; writes results/repro-target-switch.md
 ```
 
@@ -224,8 +224,27 @@ setup-pr3179-target` applies it on top of #3179.
 
 ## End-to-end: switching the DAG target (DagBag parse)
 
-Scenario D above is one case inside `repro/repro_2960.py`. The standalone
-recipe here is the small, dedicated end-to-end repro for the profile/target
+**Short version:** on Cosmos main, switching a `DbtDag` from `target=dev` to
+`target=prod` with the `dbt ls` cache on serves the cached `dev` graph, so
+models that are only enabled in `prod` never show up as tasks. With the fix
+(`--profile` / `--target` in the cache key) the prod parse misses the cache
+and renders them.
+
+Reproduce in three commands (needs Python 3.12, `uv`, and `just`):
+
+```bash
+just setup                  # Airflow 3.3.2 + dbt-core 1.12.6 / dbt-duckdb 1.11.1
+just repro-target-switch    # builds .venv-main (Cosmos main 131cf3a7) and .venv-fix (fix 41ad52b3) if missing
+cat results/repro-target-switch.md
+```
+
+`just setup-fix` installs the fix from
+[`aoelvp94/astronomer-cosmos` at `41ad52b3`](https://github.com/aoelvp94/astronomer-cosmos/commit/41ad52b3be64ad3a4099d444ec86557d731c409a)
+(branch `fix/dbt-ls-cache-key-profile-target`). Pass a local checkout to test
+something else, e.g. `just setup-fix ../astronomer-cosmos`.
+
+Scenario D above is one case inside `repro/repro_2960.py`. This standalone
+recipe is the small, dedicated end-to-end repro for the profile/target
 cache-key gap, meant to be linked from an upstream PR.
 
 A two-model project (`projects/target_switch`) is imported through Airflow 3's
@@ -234,12 +253,7 @@ The DAG reads `ProfileConfig.target_name` from the Airflow Variable
 `target_switch_dbt_target` (this Variable is **not** listed in
 `RenderConfig.airflow_vars_to_purge_dbt_ls_cache`). With the Cosmos `dbt ls`
 cache on, the file is parsed at `target=dev` and then at `target=prod`, once
-with Cosmos **main** (`131cf3a7`) and once with the local **fix** (`41ad52b3`).
-
-```bash
-just setup-fix              # installs .venv-fix from /workspace/cosmos-upstream (SHA 41ad52b3)
-just repro-target-switch    # parses with .venv-main then .venv-fix; writes results/repro-target-switch.md
-```
+with Cosmos **main** (`131cf3a7`) and once with the **fix** (`41ad52b3`).
 
 Results measured 2026-11-10 (Asia/Yerevan) on Airflow 3.3.2, dbt-core 1.12.6,
 and dbt-duckdb 1.11.1. The hashed key args are the second half of the cache

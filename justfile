@@ -34,6 +34,11 @@ setup-prs:
     just setup-ref pr3179 sohailshk/astronomer-cosmos 5056f941a9a4bd796f60fad817caffcbc2e07fef
     just setup-ref pr3136 Hrushikesh-ramilla/astronomer-cosmos 7d697d8243b7ca07d3c0c7667f79624468d8def5
 
+# PR #3179 plus the local follow-up patch (profile/target in the dbt ls cache key)
+setup-pr3179-target:
+    just setup-ref pr3179-target sohailshk/astronomer-cosmos 5056f941a9a4bd796f60fad817caffcbc2e07fef
+    patch -p1 -d .venv-pr3179-target/lib/python3.12/site-packages < patches/2960-profile-target-in-dbt-ls-cache-key.patch
+
 versions:
     @.venv/bin/python -c "import sys, airflow, cosmos; print('python', sys.version.split()[0]); print('airflow', airflow.__version__); print('cosmos', cosmos.__version__)"
     @.venv-dbt/bin/dbt --version 2>/dev/null | sed -n '1,6p'
@@ -42,7 +47,8 @@ versions:
 gen n out:
     python3 scripts/gen_project.py -n {{n}} --out {{out}}
 
-# Full matrix: sizes x variants x cold/warm, medians over `rounds`
+# Full matrix: sizes x variants x cold/warm, medians over `rounds`.
+# For n>=5000, pass e.g. `--import-timeout 600` (Airflow's default dagbag_import_timeout is 30s).
 bench sizes="100,500,1000,2500,5000" rounds="3" tag="local":
     .venv/bin/python scripts/bench.py --sizes {{sizes}} --rounds {{rounds}} --tag {{tag}}
 
@@ -63,9 +69,16 @@ repro-all:
     just repro-2960 .venv cosmos-1.16.0
     just repro-2960 .venv-main cosmos-main
     just repro-2960 .venv-pr3179 cosmos-pr3179
+    just repro-2960 .venv-pr3179-target cosmos-pr3179-plus-target
     just repro-2739 .venv cosmos-1.16.0
     just repro-2739 .venv-main cosmos-main
     just repro-2739 .venv-pr3136 cosmos-pr3136
+
+# Optional: build a 100-model project and `astro dev parse` it (needs Docker).
+# This box talks to Docker at tcp://127.0.0.1:2375; override DOCKER_HOST if needed.
+astro-parse sizes="100":
+    just astro-projects {{sizes}}
+    cd astro && DOCKER_HOST="${DOCKER_HOST:-tcp://127.0.0.1:2375}" astro dev parse
 
 # Synthetic projects for the Astro CLI project (astro/dags/dbt/n<N>, with a manifest)
 astro-projects sizes="1000":

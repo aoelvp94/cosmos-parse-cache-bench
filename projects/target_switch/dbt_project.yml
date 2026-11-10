@@ -1,0 +1,13 @@
+name: target_switch
+version: "1.0.0"
+profile: bench
+model-paths: ["models"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: target
+clean-targets: ["target", "dbt_packages"]
+models:
+  target_switch:
+    +materialized: view

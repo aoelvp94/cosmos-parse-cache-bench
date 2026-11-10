@@ -39,6 +39,19 @@ setup-pr3179-target:
     just setup-ref pr3179-target sohailshk/astronomer-cosmos 5056f941a9a4bd796f60fad817caffcbc2e07fef
     patch -p1 -d .venv-pr3179-target/lib/python3.12/site-packages < patches/2960-profile-target-in-dbt-ls-cache-key.patch
 
+# Cosmos from a local checkout (default: the profile/target cache-key fix at 41ad52b3).
+# Reuses the already-provisioned .venv-main Airflow install and replaces Cosmos.
+setup-fix src="/workspace/cosmos-upstream":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ ! -x .venv-main/bin/python ]; then
+      just setup-ref main astronomer/astronomer-cosmos 131cf3a72192987376622587538fde6e12368ba4
+    fi
+    rm -rf .venv-fix
+    cp -a .venv-main .venv-fix
+    uv pip install -q --python .venv-fix/bin/python --force-reinstall --no-deps "{{src}}"
+    .venv-fix/bin/python -c "import cosmos,pathlib; print('cosmos', cosmos.__version__, pathlib.Path(cosmos.__file__).resolve())"
+
 versions:
     @.venv/bin/python -c "import sys, airflow, cosmos; print('python', sys.version.split()[0]); print('airflow', airflow.__version__); print('cosmos', cosmos.__version__)"
     @.venv-dbt/bin/dbt --version 2>/dev/null | sed -n '1,6p'
@@ -63,6 +76,18 @@ repro-2960 venv=".venv" label="cosmos-1.16.0":
 # #2739 profile-cache logging repro
 repro-2739 venv=".venv" label="cosmos-1.16.0":
     REPRO_PY={{justfile_directory()}}/{{venv}}/bin/python .venv/bin/python repro/repro_2739.py --label {{label}}
+
+# End-to-end DagBag repro: switch the DAG target dev→prod on Cosmos main vs the local fix
+repro-target-switch:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ ! -x .venv-main/bin/python ]; then
+      just setup-ref main astronomer/astronomer-cosmos 131cf3a72192987376622587538fde6e12368ba4
+    fi
+    if [ ! -x .venv-fix/bin/python ]; then
+      just setup-fix
+    fi
+    .venv-main/bin/python repro/repro_target_switch.py --main-py .venv-main/bin/python --fix-py .venv-fix/bin/python
 
 # All repros on 1.16.0, main and the two open PRs (needs `just setup-prs`)
 repro-all:

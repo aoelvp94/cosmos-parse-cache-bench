@@ -73,10 +73,11 @@ def main() -> None:
             g.run_command = _run_command
 
     collector = _Collector()
+    cosmos_level = logging.DEBUG if os.environ.get("BENCH_DUMP_CACHE") else logging.INFO
     for name in ("cosmos", "airflow.task.cosmos"):
         lg = logging.getLogger(name)
         lg.addHandler(collector)
-        lg.setLevel(logging.INFO)
+        lg.setLevel(cosmos_level)
 
     child_base = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss / 1024
     rss_base = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
@@ -114,6 +115,37 @@ def main() -> None:
         "child_peak_mb": round(child_peak, 1) if child_peak > child_base else 0.0,
         "cosmos_msgs": [m[:300] for m in msgs if "Cosmos performance" in m or "cache" in m.lower()][:20],
     }
+    if os.environ.get("BENCH_DUMP_CACHE"):
+        # Extra fields for the target-switch DagBag repro: Variable name, hashed key
+        # args, the raw dbt_ls_cache_key_args list, and rendered task ids.
+        from airflow.models import Variable as AFVar
+
+        dag_id = dags[0].dag_id if dags else os.environ.get("BENCH_DAG_ID", "")
+        var_name = f"cosmos_cache__{dag_id}"
+        out["cache_variable"] = var_name
+        out["task_ids"] = [tid.split(":", 1)[0] for tid in task_ids]
+        args_list = None
+        for m in msgs:
+            if "dbt_ls_cache_key_args" in m:
+                # "Value of `dbt_ls_cache_key_args` for <cosmos_cache__...>: ['--profile', ...]"
+                bracket = m.find("[")
+                if bracket >= 0:
+                    try:
+                        args_list = json.loads(m[bracket:].replace("'", '"'))
+                    except json.JSONDecodeError:
+                        args_list = None
+        out["cache_key_args"] = args_list
+        raw = AFVar.get(var_name, default_var=None)
+        version = None
+        if raw:
+            payload = json.loads(raw) if isinstance(raw, str) else raw
+            version = payload.get("version")
+        # Prefer the version Cosmos compared against (hit log includes it).
+        for m in msgs:
+            if "Cache hit for" in m and " - " in m:
+                version = m.split(" - ", 1)[1].strip() or version
+        out["cache_version"] = version
+        out["cache_args_hash"] = version.split(",", 1)[1] if version and "," in version else None
     print("BENCH_RESULT " + json.dumps(out))
 
 

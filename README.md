@@ -24,7 +24,10 @@ pushed anywhere by default.
 | `scripts/gen_project.py` | Deterministic synthetic dbt project (staging / intermediate / marts, sources, unique + not_null tests). |
 | `scripts/bench.py`, `scripts/parse_once.py`, `scripts/dbt_shim.sh` | Fresh-process `DagBag` harness: parse time, task count, `dbt ls` call counting, cache hit/miss, RSS. |
 | `dags/cosmos_bench_dag.py` | The single `DbtDag` under test (load mode and project come from env vars). |
+| `dags/target_switch_dag.py` | Minimal `DbtDag` whose `ProfileConfig.target_name` comes from the Airflow Variable `target_switch_dbt_target`. |
+| `projects/target_switch/` | Two-model dbt project (`always_on`, plus `prod_only` enabled only when `target.name == 'prod'`). |
 | `repro/repro_2960.py`, `repro/repro_2739.py` | Issue reproductions, compared across Cosmos builds. |
+| `repro/repro_target_switch.py` | End-to-end DagBag repro of a `dev` → `prod` target switch on Cosmos main vs the local fix. |
 | `patches/2960-profile-target-in-dbt-ls-cache-key.patch` | Local follow-up on top of PR #3179: put `--profile` / `--target` in the cache key. |
 | `astro/` | Astro CLI (Runtime 3.3-12) project for the same DAGs. Generated dbt projects are gitignored. |
 | `results/` | Raw JSONL, median tables, repro transcripts, and command logs from the runs below. |
@@ -85,6 +88,8 @@ just repro-2960 .venv-pr3179 cosmos-pr3179
 just repro-2960 .venv-pr3179-target cosmos-pr3179-plus-target
 just repro-2739 .venv cosmos-1.16.0
 just repro-2739 .venv-pr3136 cosmos-pr3136
+just setup-fix                    # .venv-fix from a local Cosmos checkout (default /workspace/cosmos-upstream)
+just repro-target-switch          # DagBag e2e: dev→prod on main vs the fix; writes results/repro-target-switch.md
 ```
 
 ## Astro CLI path (optional)
@@ -216,6 +221,42 @@ local patch in `patches/2960-profile-target-in-dbt-ls-cache-key.patch`
 extends the #3179 key with `--profile` and `--target` and is the only build
 in this repo that gets D right, without breaking A–C or E. `just
 setup-pr3179-target` applies it on top of #3179.
+
+## End-to-end: switching the DAG target (DagBag parse)
+
+Scenario D above is one case inside `repro/repro_2960.py`. The standalone
+recipe here is the small, dedicated end-to-end repro for the profile/target
+cache-key gap, meant to be linked from an upstream PR.
+
+A two-model project (`projects/target_switch`) is imported through Airflow 3's
+`DagBag` — the same path a DAG processor uses, not a direct `DbtGraph` call.
+The DAG reads `ProfileConfig.target_name` from the Airflow Variable
+`target_switch_dbt_target` (this Variable is **not** listed in
+`RenderConfig.airflow_vars_to_purge_dbt_ls_cache`). With the Cosmos `dbt ls`
+cache on, the file is parsed at `target=dev` and then at `target=prod`, once
+with Cosmos **main** (`131cf3a7`) and once with the local **fix** (`41ad52b3`).
+
+```bash
+just setup-fix              # installs .venv-fix from /workspace/cosmos-upstream (SHA 41ad52b3)
+just repro-target-switch    # parses with .venv-main then .venv-fix; writes results/repro-target-switch.md
+```
+
+Results measured 2026-11-10 (Asia/Yerevan) on Airflow 3.3.2, dbt-core 1.12.6,
+and dbt-duckdb 1.11.1. The hashed key args are the second half of the cache
+Variable's `version` field (`md5` of `DbtGraph.dbt_ls_cache_key_args`). The
+Variable name is `cosmos_cache__target_switch` in every row.
+
+| build | parse | hashed key args | cache | task_ids | prod_only |
+|---|---|---|---|---|---|
+| main (`131cf3a`) | dev (cold) | `fe93a97f74feddf7bef8f4ca29c2724c` | **miss** | `always_on_run` | no |
+| main (`131cf3a`) | prod (cache on) | `fe93a97f74feddf7bef8f4ca29c2724c` (same) | **hit** | `always_on_run` | no |
+| fix (`41ad52b`) | dev (cold) | `875f88d1dcf26d19e28abd65e4efde1e` | **miss** | `always_on_run` | no |
+| fix (`41ad52b`) | prod (cache on) | `88c21679f014f876ad033a4dea1e0a5b` (changed) | **miss** | `always_on_run`, `prod_only_run` | yes |
+
+On main the key args are just `--no-partial-parse` for both targets, so the
+prod parse is a stale cache hit and `prod_only` never appears. On the fix the
+key also includes `--profile bench --target <name>`, the hash changes with
+the target, prod misses, and `prod_only_run` is rendered.
 
 ## #2739 — profile contents logging with profile caching on or off
 

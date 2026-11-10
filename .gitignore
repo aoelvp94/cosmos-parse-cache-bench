@@ -1,0 +1,6 @@
+.venv*/
+.airflow_home*/
+work/
+__pycache__/
+*.pyc
+logs/

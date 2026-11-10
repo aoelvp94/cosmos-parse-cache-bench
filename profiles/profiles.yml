@@ -1,0 +1,11 @@
+bench:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: /tmp/cosmos-bench-dev.duckdb
+      threads: 4
+    prod:
+      type: duckdb
+      path: /tmp/cosmos-bench-prod.duckdb
+      threads: 4
